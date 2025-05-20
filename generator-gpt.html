@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>توليد نص إعلاني - NeonAdsAi</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: #f9fafb;
+      color: #222;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .result {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>✨ توليد نص إعلاني باستخدام الذكاء الاصطناعي</h1>
+
+<form id="adForm">
+  <label for="product">اسم المنتج أو الخدمة</label>
+  <input type="text" id="product" required placeholder="مثال: منصة NeonAdsAi">
+
+  <label for="audience">الفئة المستهدفة</label>
+  <input type="text" id="audience" required placeholder="مثال: أصحاب المتاجر الإلكترونية">
+
+  <label for="goal">الهدف الإعلاني</label>
+  <select id="goal" required>
+    <option value="زيادة المبيعات">زيادة المبيعات</option>
+    <option value="تسجيل العملاء">تسجيل العملاء</option>
+    <option value="زيادة الوعي بالعلامة">زيادة الوعي بالعلامة</option>
+  </select>
+
+  <button type="submit">🤖 توليد النص الآن</button>
+</form>
+
+<div class="result" id="output" style="display:none;"></div>
+
+<script>
+  const form = document.getElementById('adForm');
+  const output = document.getElementById('output');
+
+  form.onsubmit = async function(e) {
+    e.preventDefault();
+    output.innerText = '⏳ جارٍ توليد النص...';
+    output.style.display = 'block';
+
+    const data = {
+      product: document.getElementById('product').value,
+      audience: document.getElementById('audience').value,
+      goal: document.getElementById('goal').value
+    };
+
+    try {
+      const response = await fetch("https://hook.eu2.make.com/i46yjdupxrif7fuzeysnmayb9cn4ulen", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      output.innerText = result.ad_copy || '⚠️ لم يتم توليد النص. تأكد من إعداد Make بشكل صحيح.';
+    } catch (error) {
+      output.innerText = '❌ حدث خطأ أثناء الاتصال بالخدمة.';
+    }
+  }
+</script>
+
+</body>
+</html>
